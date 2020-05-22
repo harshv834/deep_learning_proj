@@ -11,6 +11,8 @@ from torch.utils.data import DataLoader, Dataset
 import tqdm
 from torch.autograd import Variable
 from models import CompareNet1,CompareNet11,CompareNet12,CompareNet2,CompareNet21,CompareNet22
+
+
 # Chosen best architecture:
 # 1. Weight Sharing
 # 2. Without auxillary loss
@@ -40,6 +42,7 @@ class DigitPairsDataset(Dataset):
 
 
 criterion = nn.CrossEntropyLoss()
+print("Set the options desired to True")
 auxillary = False  # choose to have auxillary loss or not
 linear = False  # choose to have linear layers or not for base
 wt_sharing = True  # choose to have weight sharing or not
@@ -150,7 +153,7 @@ while count < nb_iterations:
             print("Epoch : %d  ,   Train Accuracy : %.2f  , Validation Accuracy : %.2f , Training Loss : %.6f" % (
             epoch, train_acc, val_acc, running_loss))
 
-    # plotting loss curve
+    print("plotting loss curve....")
     plt.plot(range(epochs), loss_arr)
     plt.xlabel("Epochs")
     plt.ylabel("Loss")
@@ -159,7 +162,7 @@ while count < nb_iterations:
     plt.savefig(fileplot1)
     plt.show()
 
-    # plotting accuracy curves
+    print("plotting accuracy curves.....")
     plt.plot(range(epochs), train_acc_arr, label=" Training accuracy")
     plt.plot(range(epochs), val_acc_arr, label="Validation accuracy")
     plt.ylabel("Accuracy")
@@ -170,6 +173,7 @@ while count < nb_iterations:
     plt.savefig(fileplot)
     plt.show()
 
+    print("saving the arrays in npy files: needed for calculation of standard deviation...")
     fileloss = "loss_{count}.npy".format(count=count)
     np.save(fileloss, loss_arr)
     filetrain = "train_acc_{count}.npy".format(count=count)
